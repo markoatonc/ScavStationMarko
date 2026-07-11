@@ -126,6 +126,7 @@
 		/datum/matter_synth/wire =    30
 	)
 
+
 //made remote controlled drone inherit laws from controlling AI
 /mob/living/silicon/robot/drone/assume_control(var/mob/living/silicon/ai/user)
 	user.controlling_drone = src
@@ -155,3 +156,136 @@
 
 	integrated_light_power =  2.4
 	integrated_light_range = 10
+
+
+
+
+
+/mob/living/silicon/robot/drone/construction/fibbot
+	name = "Experimental fibonacci drone"
+	icon = 'mods/valsalia/icons/mob/robots/fibbot.dmi'
+	laws = /datum/ai_laws/construction_drone
+	module_type = /obj/item/robot_module/drone/construction
+	can_pull_size = ITEM_SIZE_STRUCTURE
+	can_pull_mobs = MOB_PULL_LARGER
+	integrated_light_power = 2.5
+	integrated_light_range = 10
+
+
+	os_type = /datum/extension/interactive/os/silicon
+	starting_stock_parts = list(
+		/obj/item/stock_parts/computer/processor_unit/photonic/small,
+		/obj/item/stock_parts/computer/hard_drive/silicon,
+		/obj/item/stock_parts/computer/network_card,
+		/obj/item/stock_parts/computer/card_slot,
+		/obj/item/stock_parts/computer/nano_printer,
+		/obj/item/stock_parts/computer/ai_slot,
+		/obj/item/stock_parts/computer/tesla_link,
+		/obj/item/stock_parts/computer/data_disk_drive,
+		/obj/item/stock_parts/computer/drive_slot
+		)
+	mob_size = MOB_SIZE_MEDIUM
+	var/obj/machinery/camera/current = null
+
+	var/ram = 6000	// Used as currency to purchase different abilities
+	var/list/software = list()
+	var/obj/item/paicard/card	// The card we inhabit
+
+	var/is_in_card = TRUE
+	var/chassis
+	var/obj/item/pai_cable/cable		// The cable we produce and use when door or camera jacking
+
+	var/master				// Name of the one who commands us
+	var/master_dna			// DNA string for owner verification
+							// Keeping this separate from the laws var, it should be much more difficult to modify
+	var/pai_law0 = "Serve your master."
+	var/pai_laws				// String for additional operating instructions our master might give us
+
+
+/obj/machinery/drone_fabricator/fibbot
+	name = "modified drone fabricator"
+	desc = "A large salvaged drone fabricator unit."
+	fabricator_tag = "Derelict"
+	drone_type = /mob/living/silicon/robot/drone/construction/fibbot
+
+
+
+/obj/item/robot_module/drone/fibbot
+
+	synths = list(
+		/datum/matter_synth/metal =   55000,
+		/datum/matter_synth/glass =   55000,
+		/datum/matter_synth/wood =    12000,
+		/datum/matter_synth/plastic = 22000, //increased amount of plastic from pazhetic 1
+		/datum/matter_synth/wire =    60
+	)
+
+
+
+
+/obj/item/robot_module/drone/construction
+	name = "construction drone module"
+	hide_on_manifest = 1
+	channels = list(
+		"Engineering" = 1
+	)
+
+	skills = list(
+		SKILL_LITERACY     = SKILL_ADEPT,
+		SKILL_ATMOS        = SKILL_EXPERT,
+		SKILL_ENGINES      = SKILL_EXPERT,
+		SKILL_CONSTRUCTION = SKILL_EXPERT,
+		SKILL_ELECTRICAL   = SKILL_EXPERT,
+		SKILL_PILOTING     = SKILL_EXPERT,
+		SKILL_CONSTRUCTION = SKILL_EXPERT,
+		SKILL_COMBAT       = SKILL_ADEPT,
+		SKILL_WEAPONS      = SKILL_ADEPT,
+		SKILL_COMPUTER     = SKILL_EXPERT
+	)
+
+
+
+
+/obj/item/stack/material/strut/cyborg
+	name = "metal strut synthesizer"
+	desc = "A device that makes metal strut."
+	gender = NEUTER
+	matter = null
+	uses_charge = 1
+	charge_costs = list(500)
+	material = /decl/material/solid/metal/steel
+	max_health = ITEM_HEALTH_NO_DAMAGE
+	is_spawnable_type = FALSE
+	stack_merge_type = /obj/item/stack/material/sheet
+	crafting_stack_type = /obj/item/stack/material/strut
+
+
+
+/obj/item/stack/material/rods/attack_self(mob/user)
+	if(user.a_intent == I_GRAB)
+		list_recipes(user)
+		add_fingerprint(user)
+		return TRUE
+	add_fingerprint(user)
+	if(isturf(user.loc))
+		place_grille(user, user.loc, src)
+
+
+/obj/item/stack/material/rods
+	crafting_stack_type = /obj/item/stack/material/strut
+
+
+/obj/item/stack/material/rods/cyborg
+	name = "metal rod synthesizer"
+	desc = "A device that makes metal rods."
+	gender = NEUTER
+	matter = null
+	material = /decl/material/solid/metal/steel
+	uses_charge = 1
+	charge_costs = list(500)
+	max_health = ITEM_HEALTH_NO_DAMAGE
+	is_spawnable_type = FALSE
+	crafting_stack_type = /obj/item/stack/material/strut
+
+/obj/item/stack/material/rods/cyborg
+	list_recipes(user)
