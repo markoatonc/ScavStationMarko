@@ -3,7 +3,7 @@
 	colour                  = "#685b40"
 	display_color           = "#c4bc8c"
 
-/datum/job/valSal_port/visitor
+/datum/job/valSal_port/visitors
 	abstract_type           = /datum/job/valSal_port/visitor
 	department_types        = list(/decl/department/valSal_port/visitors)
 
@@ -16,14 +16,14 @@
 	total_positions         = -1
 	outfit_type             = /decl/outfit/job/valSal_port/traveller
 	skill_points            = 20
-
+	department_types = list(/decl/department/visitors)
 /obj/abstract/landmark/start/valSal_port/traveller
 	name                    = "Traveller"
 
 /datum/job/valSal_port/visitor/traveller/learned
 	title                   = "Scholar"
 	// todo: outfits for alt-titles?
-	alt_titles              = list("Monk", "Travelling Doctor" = /decl/outfit/job/valSal_port/traveller/doctor, "Dilettante", "Savant", "Philosopher", "Researcher", "Antiquarian")
+	alt_titles              = list("Monk", "Travelling Doctor" = /decl/outfit/job/valSal_port/traveller/doctor, "Dilettante", "Savant", "Philosopher", "Researcher", "Antiquarian", "Noble", "Priest", "Hosteler")
 	supervisors             = "your conscience"
 	description             = "You are a skilled professional who has travelled to this area from elsewhere. You may be a doctor, a scholar, a monk, or some other highly-educated individual with rare skills. Whatever your reason for coming here, you are likely one of the only individuals in the area to possess your unique skillset."
 	spawn_positions         = 2
@@ -41,6 +41,8 @@
 		SKILL_ANATOMY	    = SKILL_MAX,
 		SKILL_CHEMISTRY	    = SKILL_MAX
 	)
+	department_types = list(/decl/department/visitors)
+	selection_color = "#485a80"
 
 /obj/abstract/landmark/start/valSal_port/traveller/learned
 	name                    = "Scholar"
@@ -67,6 +69,8 @@
 		SKILL_ARTIFICE      = SKILL_BASIC,
 		SKILL_FINANCE       = SKILL_NONE
 	)
+	department_types = list(/decl/department/visitors)
+	selection_color = "#80582d"
 
 /obj/abstract/landmark/start/valSal_port/warrior
 	name                    = "Warrior"
@@ -92,6 +96,8 @@
 		SKILL_CHEMISTRY	   = SKILL_MAX
 	)
 	skill_points            = 30
+	department_types = list(/decl/department/visitors)
+	selection_color = "#1c5880"
 
 /obj/abstract/landmark/start/valSal_port/merchant
 	name                    = "Travelling Merchant"
